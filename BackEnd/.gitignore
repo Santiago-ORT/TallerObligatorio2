@@ -1,0 +1,6 @@
+# Ignorar datos binarios de MySQL
+data/
+
+# Ignorar archivos temporales de Docker
+*.log
+*.tmp
