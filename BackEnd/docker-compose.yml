@@ -7,8 +7,8 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: obligatorio
-      MYSQL_USER: alumno
-      MYSQL_PASSWORD: alumno123
+      MYSQL_USER: obligatorio2
+      MYSQL_PASSWORD: obligatorio2
     ports:
       - "3306:3306"
     volumes:
