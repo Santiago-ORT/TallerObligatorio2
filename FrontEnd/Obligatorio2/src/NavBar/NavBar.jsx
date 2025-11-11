@@ -1,6 +1,7 @@
 import { useState } from "react";
 import "./NavBar.css";
 import logo from "../Img/Logo.png";
+import { Link } from "react-router-dom";
 
 export default function Navbar({ onCategoriaSeleccionada, onBuscar,  productos }) {
   const categorias = [
@@ -76,7 +77,7 @@ export default function Navbar({ onCategoriaSeleccionada, onBuscar,  productos }
           <div className="icon cart">
             🛒<span className="cart-badge">0</span>
           </div>
-          <div className="icon user">👤</div>
+          <Link to="/Login" className="icon user">👤</Link>
         </div>
 
         <div className="nav-links">
