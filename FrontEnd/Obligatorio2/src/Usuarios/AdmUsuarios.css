@@ -1,7 +1,7 @@
 
 :root {
   --color-primary-bg: #f8f9fa;
-  --color-secondary-bg: #eee; 
+  --color-secondary-bg: #d10000; 
   --color-border: #ccc;
   --color-text: #333;
   --color-accent-add: #28a745; 
@@ -15,12 +15,15 @@
   padding: 20px; 
   background-color: var(--color-primary-bg);
   color: var(--color-text);
+  text-align: center;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
 
 .admin-header {
   border-bottom: 2px solid var(--color-border);
   padding-bottom: 10px;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
+  font-size: 2rem;
 }
 
 
@@ -71,10 +74,15 @@
   cursor: not-allowed;
 }
 
-
+.table-wrapper {
+  border-radius: 0.5rem;        
+  overflow: hidden;           
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
 .users-table {
   width: 100%;
   border-collapse: collapse;
+  border-radius: 1rem;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
@@ -86,7 +94,7 @@
 
 .users-table th {
   background-color: var(--color-secondary-bg);
-  color: var(--color-text);
+  color: white;
   font-weight: 600;
 }
 
