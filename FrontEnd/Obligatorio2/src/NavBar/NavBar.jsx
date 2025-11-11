@@ -1,8 +1,16 @@
 import { useState } from "react";
 import "./NavBar.css";
+import Chart from "../Chart/Chart";
 import logo from "../Img/Logo.png";
 
-export default function Navbar({ onCategoriaSeleccionada, onBuscar,  productos }) {
+export default function Navbar({
+  onCategoriaSeleccionada,
+  onBuscar,
+  productos,
+  cantidadCarrito,
+  carrito,
+  setCarrito,
+}) {
   const categorias = [
     "Todos",
     "Guitarras",
@@ -14,10 +22,9 @@ export default function Navbar({ onCategoriaSeleccionada, onBuscar,  productos }
 
   const [search, setSearch] = useState("");
   const [suggestions, setSuggestions] = useState([]);
+  const [carritoAbierto, setCarritoAbierto] = useState(false);
 
-
-
-   const handleSearchChange = (e) => {
+  const handleSearchChange = (e) => {
     const value = e.target.value;
     setSearch(value);
 
@@ -34,11 +41,11 @@ export default function Navbar({ onCategoriaSeleccionada, onBuscar,  productos }
     }
   };
 
- const handleSelect = (item) => {
-  setSearch(item);
-  setSuggestions([]);
-  onBuscar(item); 
-};
+  const handleSelect = (item) => {
+    setSearch(item);
+    setSuggestions([]);
+    onBuscar(item);
+  };
 
   return (
     <>
@@ -73,8 +80,11 @@ export default function Navbar({ onCategoriaSeleccionada, onBuscar,  productos }
         </div>
 
         <div className="nav-icons">
-          <div className="icon cart">
-            🛒<span className="cart-badge">0</span>
+          <div className="icon cart" onClick={() => setCarritoAbierto(true)}>
+            🛒
+            {cantidadCarrito > 0 && (
+              <span className="cart-badge">{cantidadCarrito}</span>
+            )}
           </div>
           <div className="icon user">👤</div>
         </div>
@@ -91,6 +101,12 @@ export default function Navbar({ onCategoriaSeleccionada, onBuscar,  productos }
           ))}
         </div>
       </nav>
+      <Chart
+        abierto={carritoAbierto}
+        onCerrar={() => setCarritoAbierto(false)}
+        carrito={carrito}
+        setCarrito={setCarrito}
+      />
     </>
   );
 }
