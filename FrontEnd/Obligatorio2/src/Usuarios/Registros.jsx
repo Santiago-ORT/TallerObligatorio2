@@ -1,10 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect} from "react";
 import "./Registros.css"; 
-
-
 
 const Registros = ({ registroAbierto, registroCerrado }) => { 
   
+
   const [formData, setFormData] = useState({ 
     usuario: "",
     email: "",

@@ -1,7 +1,8 @@
 import React, { useState } from "react";
-import "./Login.css"; 
+import "./Login.css";
+import axios from "axios";
 
-const Login = ({ isShowing, hide, onSwitchToRegistro }) => {
+const Login = ({ isShowing, hide, handleOpenRegistroModal}) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -15,8 +16,7 @@ const Login = ({ isShowing, hide, onSwitchToRegistro }) => {
       err.email = "Email inválido.";
 
     if (!password.trim()) err.password = "La contraseña es requerida.";
-    if (password.length < 6)
-      err.password = "Debe tener mínimo 6 caracteres.";
+    if (password.length < 6) err.password = "Debe tener mínimo 6 caracteres.";
 
     setErrors(err);
     return Object.keys(err).length === 0;
@@ -26,46 +26,63 @@ const Login = ({ isShowing, hide, onSwitchToRegistro }) => {
     e.preventDefault();
     if (!validate()) return;
 
-    console.log("Login OK ✅", { email, password });
-    // Aquí iría la lógica de autenticación y luego hide()
+    axios
+      .post("http://localhost:3000/login", {
+        email: email,
+        password: password,
+      })
+      .then((res) => {
+        console.log("Login OK:", res.data);
+
+        localStorage.setItem("usuario", JSON.stringify(res.data.usuario));
+
+        alert(`Bienvenido ${res.data.usuario.nombre}!`);
+        hide();
+      })
+      .catch((err) => {
+        if (err.response && err.response.status === 401) {
+          setErrors({ password: "Credenciales incorrectas." });
+        } else {
+          alert("Error al intentar iniciar sesión.");
+        }
+      });
   };
-  
+
   // Función para alternar al modal de Registro
   const handleRegisterClick = (e) => {
     e.preventDefault();
     if (onSwitchToRegistro) {
-        onSwitchToRegistro(); // Alterna a Registro
+      onSwitchToRegistro(); // Alterna a Registro
     } else {
-        hide(); // Si no hay prop de alternar, simplemente cierra
+      hide(); // Si no hay prop de alternar, simplemente cierra
     }
   };
 
   // 🚨 CLAVE: Si no está visible, no renderiza nada.
   if (!isShowing) {
-    return null; 
+    return null;
   }
 
   return (
     // Usamos modal-overlay para el fondo oscuro
-    <div className="modal-overlay" onClick={hide}> 
+    <div className="modal-overlay" onClick={hide}>
       {/* Usamos login-card para el contenido, e.stopPropagation() evita que el clic en el formulario cierre el modal */}
-      <form 
-        className="login-card modal-content animado" 
-        onSubmit={handleSubmit} 
+      <form
+        className="login-card modal-content animado"
+        onSubmit={handleSubmit}
         noValidate
         onClick={(e) => e.stopPropagation()}
       >
-        
         {/* Botón de cerrar, posicionado absolutamente por CSS */}
         <button
-            type="button"
-            className="modal-close-button btn-cerrar-superior"
-            onClick={hide} 
-            aria-label="Cerrar Modal"
+          type="button"
+          className="modal-close-button btn-cerrar-superior"
+          onClick={hide}
+          aria-label="Cerrar Modal"
         >
-            <span aria-hidden="true">&times;</span>
+          <span aria-hidden="true">&times;</span>
         </button>
-        
+
         <h2 className="login-title">Iniciar sesión</h2>
 
         <label className="login-label">Email</label>
@@ -100,6 +117,17 @@ const Login = ({ isShowing, hide, onSwitchToRegistro }) => {
         <button type="submit" className="login-btn">
           Ingresar
         </button>
+
+        <p
+          className="registro-texto"
+          onClick={() => {
+            if (hide) hide();
+            if (handleOpenRegistroModal) handleOpenRegistroModal();
+          }}
+          
+        >
+          ¿No tenés cuenta? Registrate acá
+        </p>
       </form>
     </div>
   );

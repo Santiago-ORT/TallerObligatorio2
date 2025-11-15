@@ -176,3 +176,10 @@
     color: #0056b3;
     text-decoration: underline;
 }
+.registro-texto {
+  margin-top: 10px;
+  cursor: pointer;
+  color: #007bff;
+  text-align: center;
+  text-decoration: underline;
+}

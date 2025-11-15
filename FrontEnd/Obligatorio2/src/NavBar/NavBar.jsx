@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import "./NavBar.css";
 import Chart from "../Chart/Chart";
 import logo from "../Img/Logo.png";
-import Login from "../Usuarios/Login"
-import Registros from "../Usuarios/Registros"
+import Login from "../Usuarios/Login";
+import Registros from "../Usuarios/Registros";
 
 export default function Navbar({
   onCategoriaSeleccionada,
@@ -25,8 +25,8 @@ export default function Navbar({
   const [search, setSearch] = useState("");
   const [suggestions, setSuggestions] = useState([]);
   const [carritoAbierto, setCarritoAbierto] = useState(false);
-  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false); 
-  const [registroAbierto, setRegistrioAbierto] = useState(false);
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+  const [isRegistroAbierto, setRegistroAbierto] = useState(false);
 
   const handleSearchChange = (e) => {
     const value = e.target.value;
@@ -50,14 +50,15 @@ export default function Navbar({
     setSuggestions([]);
     onBuscar(item);
   };
-  
+
   const handleCloseLoginModal = () => {
     setIsLoginModalOpen(false);
   };
 
+  const handleOpenRegistroModal = () => setRegistroAbierto(true);
   const handleCloseRegistroModal = () => {
-    setRegistrioAbierto(false)
-  }
+    setRegistroAbierto(false);
+  };
 
   return (
     <>
@@ -98,9 +99,9 @@ export default function Navbar({
               <span className="cart-badge">{cantidadCarrito}</span>
             )}
           </div>
-          
-          <div 
-            className="icon user" 
+
+          <div
+            className="icon user"
             onClick={() => setIsLoginModalOpen(true)}
             aria-label="Iniciar Sesión"
           >
@@ -128,13 +129,14 @@ export default function Navbar({
       />
 
       <Login
-        isShowing={isLoginModalOpen} 
-        hide={handleCloseLoginModal} 
+        isShowing={isLoginModalOpen}
+        hide={handleCloseLoginModal}
+        handleOpenRegistroModal={handleOpenRegistroModal}
       />
-
       <Registros
-      registroAbierto={registroAbierto}/>
-      registroCerrado={}
+        registroAbierto={isRegistroAbierto}
+        registroCerrado={handleCloseRegistroModal}
+      />
     </>
   );
 }
