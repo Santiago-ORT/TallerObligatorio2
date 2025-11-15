@@ -75,7 +75,7 @@ const Registros = ({ registroAbierto, registroCerrado }) => {
             <button
               type="button"
               className="modal-close-button"
-              onClick={hide} 
+              onClick={registroCerrado} 
             >
               <span aria-hidden="true">&times;</span>
             </button>

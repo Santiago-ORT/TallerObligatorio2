@@ -27,31 +27,36 @@ const Login = ({ isShowing, hide, onSwitchToRegistro }) => {
     if (!validate()) return;
 
     console.log("Login OK ✅", { email, password });
-    
+    // Aquí iría la lógica de autenticación y luego hide()
   };
   
-
+  // Función para alternar al modal de Registro
   const handleRegisterClick = (e) => {
     e.preventDefault();
     if (onSwitchToRegistro) {
-        onSwitchToRegistro();
+        onSwitchToRegistro(); // Alterna a Registro
     } else {
-        hide(); 
+        hide(); // Si no hay prop de alternar, simplemente cierra
     }
   };
 
+  // 🚨 CLAVE: Si no está visible, no renderiza nada.
   if (!isShowing) {
     return null; 
   }
 
   return (
+    // Usamos modal-overlay para el fondo oscuro
     <div className="modal-overlay" onClick={hide}> 
+      {/* Usamos login-card para el contenido, e.stopPropagation() evita que el clic en el formulario cierre el modal */}
       <form 
         className="login-card modal-content animado" 
         onSubmit={handleSubmit} 
         noValidate
         onClick={(e) => e.stopPropagation()}
       >
+        
+        {/* Botón de cerrar, posicionado absolutamente por CSS */}
         <button
             type="button"
             className="modal-close-button btn-cerrar-superior"

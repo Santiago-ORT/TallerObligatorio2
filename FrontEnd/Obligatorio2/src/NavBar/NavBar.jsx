@@ -57,7 +57,7 @@ export default function Navbar({
 
   const handleCloseRegistroModal = () => {
     setRegistrioAbierto(false)
-  };
+  }
 
   return (
     <>
@@ -133,9 +133,8 @@ export default function Navbar({
       />
 
       <Registros
-      registroAbierto={registroAbierto}
-      registroCerrado={setRegistrioAbierto}/>
-      
+      registroAbierto={registroAbierto}/>
+      registroCerrado={}
     </>
   );
 }
