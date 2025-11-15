@@ -2,6 +2,7 @@ import { useState } from "react";
 import "./NavBar.css";
 import Chart from "../Chart/Chart";
 import logo from "../Img/Logo.png";
+import { Link } from "react-router-dom";
 
 export default function Navbar({
   onCategoriaSeleccionada,
@@ -86,7 +87,7 @@ export default function Navbar({
               <span className="cart-badge">{cantidadCarrito}</span>
             )}
           </div>
-          <div className="icon user">👤</div>
+          <Link to="/Login" className="icon user">👤</Link>
         </div>
 
         <div className="nav-links">
