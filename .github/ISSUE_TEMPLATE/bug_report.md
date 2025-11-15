@@ -14,6 +14,9 @@ assignees: []
 2. Hacer clic en…
 3. Observar…
 
+## Evidencia
+Cargue la evidencia de la falla.
+
 ## Resultado esperado
 ¿Qué debería pasar?
 
