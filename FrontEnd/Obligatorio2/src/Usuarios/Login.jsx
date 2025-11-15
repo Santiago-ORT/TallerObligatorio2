@@ -1,8 +1,7 @@
 import React, { useState } from "react";
-import "./Login.css";
-import { Link } from "react-router-dom";
+import "./Login.css"; 
 
-const Login = () => {
+const Login = ({ isShowing, hide, onSwitchToRegistro }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -28,11 +27,45 @@ const Login = () => {
     if (!validate()) return;
 
     console.log("Login OK ✅", { email, password });
+    // Aquí iría la lógica de autenticación y luego hide()
+  };
+  
+  // Función para alternar al modal de Registro
+  const handleRegisterClick = (e) => {
+    e.preventDefault();
+    if (onSwitchToRegistro) {
+        onSwitchToRegistro(); // Alterna a Registro
+    } else {
+        hide(); // Si no hay prop de alternar, simplemente cierra
+    }
   };
 
+  // 🚨 CLAVE: Si no está visible, no renderiza nada.
+  if (!isShowing) {
+    return null; 
+  }
+
   return (
-    <div className="login-page">
-      <form className="login-card" onSubmit={handleSubmit} noValidate>
+    // Usamos modal-overlay para el fondo oscuro
+    <div className="modal-overlay" onClick={hide}> 
+      {/* Usamos login-card para el contenido, e.stopPropagation() evita que el clic en el formulario cierre el modal */}
+      <form 
+        className="login-card modal-content animado" 
+        onSubmit={handleSubmit} 
+        noValidate
+        onClick={(e) => e.stopPropagation()}
+      >
+        
+        {/* Botón de cerrar, posicionado absolutamente por CSS */}
+        <button
+            type="button"
+            className="modal-close-button btn-cerrar-superior"
+            onClick={hide} 
+            aria-label="Cerrar Modal"
+        >
+            <span aria-hidden="true">&times;</span>
+        </button>
+        
         <h2 className="login-title">Iniciar sesión</h2>
 
         <label className="login-label">Email</label>
@@ -67,7 +100,6 @@ const Login = () => {
         <button type="submit" className="login-btn">
           Ingresar
         </button>
-        <Link to="/Registro" className="registro-btn">Registrarse</Link>
       </form>
     </div>
   );
