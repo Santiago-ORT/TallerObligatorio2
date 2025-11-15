@@ -1,9 +1,11 @@
+---
 name: "Feature Request"
 about: "Solicitar una nueva funcionalidad."
 title: "[FEATURE] - "
 labels: ["feature"]
 assignees: []
 ---
+
 
 ## Descripción de la funcionalidad
 ¿Qué se quiere agregar al sistema?
