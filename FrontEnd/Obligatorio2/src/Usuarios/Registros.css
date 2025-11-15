@@ -11,7 +11,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 9999;
+  z-index: 1000;
   backdrop-filter: blur(4px);
   animation: fadeIn 0.3s ease forwards;
 }
@@ -133,4 +133,13 @@
 
 .login-btn:hover {
   background-color: #218838;
+}
+.modal-wrapper {
+  z-index: 10000; /* MÁS ALTO QUE EL NAVBAR */
+  position: relative; /* necesario para que el z-index funcione */
+}
+
+.login-card {
+  z-index: 10001;
+  position: relative;
 }

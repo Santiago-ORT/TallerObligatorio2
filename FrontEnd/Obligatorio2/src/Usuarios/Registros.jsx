@@ -1,5 +1,8 @@
 import React, { useState, useEffect} from "react";
 import "./Registros.css"; 
+import axios from "axios";
+import Swal from "sweetalert2";
+
 
 const Registros = ({ registroAbierto, registroCerrado }) => { 
   
@@ -49,13 +52,61 @@ const Registros = ({ registroAbierto, registroCerrado }) => {
     return Object.keys(err).length === 0;
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (!validate()) return;
+ const handleSubmit = async (e) => {
+  e.preventDefault();
+  if (!validate()) return;
 
-    console.log("Registro OK ✅", formData);
-  
-  };
+  try {
+    const response = await axios.post("http://localhost:3000/registro", {
+      usuario: formData.usuario,
+      email: formData.email,
+      password: formData.password,
+      nombre: formData.nombre,
+      apellido: formData.apellido,
+      ci: formData.ci,
+    });
+
+    console.log("Registro OK:", response.data);
+
+     await Swal.fire({
+      icon: "success",
+      title: "Usuario registrado con éxito",
+      text: "Vuelve a iniciar sesión",
+      confirmButtonText: "Aceptar",
+    });
+
+    // Cierra el modal
+    if (registroCerrado) registroCerrado();
+
+    // Limpia el formulario
+    setFormData({
+      usuario: "",
+      email: "",
+      password: "",
+      confirmPassword: "",
+      nombre: "",
+      apellido: "",
+      ci: "",
+    });
+
+  } catch (error) {
+    console.error("Error en registro:", error);
+
+    if (error.response) {
+      Swal.fire({
+        icon: "error",
+        title: "Error en el registro",
+        text: error.response.data.error,
+      });
+    } else {
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "Error conectando al servidor",
+      });
+    }
+  }
+};
   
   
   if (!registroAbierto) {

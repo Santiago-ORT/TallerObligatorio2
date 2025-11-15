@@ -1,8 +1,13 @@
 import React, { useState } from "react";
 import "./Login.css";
 import axios from "axios";
-
-const Login = ({ isShowing, hide, handleOpenRegistroModal}) => {
+import Swal from "sweetalert2";
+const Login = ({
+  isShowing,
+  hide,
+  handleOpenRegistroModal,
+  onLoginExitoso,
+}) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -32,11 +37,20 @@ const Login = ({ isShowing, hide, handleOpenRegistroModal}) => {
         password: password,
       })
       .then((res) => {
-        console.log("Login OK:", res.data);
+        const usuario = res.data.usuario;
 
-        localStorage.setItem("usuario", JSON.stringify(res.data.usuario));
+        localStorage.setItem("usuario", JSON.stringify(usuario));
 
-        alert(`Bienvenido ${res.data.usuario.nombre}!`);
+        // 🚨 Aquí notificamos a Navbar que hay login exitoso
+        if (typeof onLoginExitoso === "function") {
+          onLoginExitoso(usuario);
+        }
+
+        Swal.fire({
+          icon: "success",
+          title: `Bienvenido ${usuario.nombre}!`,
+          confirmButtonText: "Continuar",
+        });
         hide();
       })
       .catch((err) => {
@@ -124,7 +138,6 @@ const Login = ({ isShowing, hide, handleOpenRegistroModal}) => {
             if (hide) hide();
             if (handleOpenRegistroModal) handleOpenRegistroModal();
           }}
-          
         >
           ¿No tenés cuenta? Registrate acá
         </p>

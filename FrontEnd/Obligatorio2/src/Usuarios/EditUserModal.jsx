@@ -56,8 +56,8 @@ const EditUserModal = ({ isOpen, onClose, userData, onSave }) => {
 
           <label>Rol:</label>
           <select value={rol} onChange={(e) => setRol(e.target.value)}>
-            <option value="Usuario">Usuario</option>
-            <option value="Admin">Admin</option>
+            <option value="Cliente">Cliente</option>
+            <option value="Administrador">Administrador</option>
           </select>
 
           <div className="modal-buttons">

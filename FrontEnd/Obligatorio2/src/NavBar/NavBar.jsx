@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./NavBar.css";
 import Chart from "../Chart/Chart";
 import logo from "../Img/Logo.png";
 import Login from "../Usuarios/Login";
 import Registros from "../Usuarios/Registros";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 export default function Navbar({
   onCategoriaSeleccionada,
@@ -13,7 +15,14 @@ export default function Navbar({
   carrito,
   setCarrito,
 }) {
-  const categorias = [
+  const [usuarioActual, setUsuarioActual] = useState(null);
+  const [search, setSearch] = useState("");
+  const [suggestions, setSuggestions] = useState([]);
+  const [carritoAbierto, setCarritoAbierto] = useState(false);
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+  const [isRegistroAbierto, setRegistroAbierto] = useState(false);
+  const navigate = useNavigate();
+  const categoriasBase = [
     "Todos",
     "Guitarras",
     "Bajos",
@@ -22,11 +31,32 @@ export default function Navbar({
     "Accesorios",
   ];
 
-  const [search, setSearch] = useState("");
-  const [suggestions, setSuggestions] = useState([]);
-  const [carritoAbierto, setCarritoAbierto] = useState(false);
-  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
-  const [isRegistroAbierto, setRegistroAbierto] = useState(false);
+  const categorias = usuarioActual
+    ? [...categoriasBase, "Administrar Usuarios", "Administrar Productos", "Administrar Compras"]
+    : categoriasBase;
+  useEffect(() => {
+    const usuarioLS = localStorage.getItem("usuario");
+    if (!usuarioLS) return;
+
+    const usuarioObj = JSON.parse(usuarioLS);
+
+    // Llamada al backend para validar
+    axios
+      .get(`http://localhost:3000/consultarusuario/${usuarioObj.id}`)
+      .then((res) => {
+        const usuarioDB = res.data;
+
+        if (
+          usuarioDB.nombre === usuarioObj.nombre &&
+          usuarioDB.apellido === usuarioObj.apellido &&
+          usuarioDB.email === usuarioObj.email &&
+          usuarioDB.rol === usuarioObj.rol
+        ) {
+          setUsuarioActual(usuarioDB);
+        }
+      })
+      .catch((err) => console.error("Error al validar usuario:", err));
+  }, []);
 
   const handleSearchChange = (e) => {
     const value = e.target.value;
@@ -100,13 +130,27 @@ export default function Navbar({
             )}
           </div>
 
-          <div
-            className="icon user"
-            onClick={() => setIsLoginModalOpen(true)}
-            aria-label="Iniciar Sesión"
-          >
-            👤
-          </div>
+          {usuarioActual ? (
+            <div
+              className="icon logout"
+              onClick={() => {
+                localStorage.removeItem("usuario");
+                setUsuarioActual(null);
+                navigate("/");
+              }}
+              aria-label="Cerrar Sesión"
+            >
+              ➡️
+            </div>
+          ) : (
+            <div
+              className="icon user"
+              onClick={() => setIsLoginModalOpen(true)}
+              aria-label="Iniciar Sesión"
+            >
+              👤
+            </div>
+          )}
         </div>
 
         <div className="nav-links">
@@ -114,7 +158,19 @@ export default function Navbar({
             <div
               key={cat}
               className="nav-item"
-              onClick={() => onCategoriaSeleccionada(cat)}
+              onClick={() => {
+                if (cat === "Administrar Usuarios") {
+                  navigate("/usuarios"); // redirecciona
+                }
+                if (cat === "Administrar Compras") {
+                  navigate("/compras"); // redirecciona
+                }
+                if (cat === "Administrar Productos") {
+                  navigate("/productos");
+                } else {
+                  onCategoriaSeleccionada(cat);
+                }
+              }}
             >
               {cat}
             </div>
@@ -126,12 +182,14 @@ export default function Navbar({
         onCerrar={() => setCarritoAbierto(false)}
         carrito={carrito}
         setCarrito={setCarrito}
+        usuarioActual={usuarioActual}
       />
 
       <Login
         isShowing={isLoginModalOpen}
         hide={handleCloseLoginModal}
         handleOpenRegistroModal={handleOpenRegistroModal}
+        onLoginExitoso={(usuarioDB) => setUsuarioActual(usuarioDB)} // <-- nueva prop
       />
       <Registros
         registroAbierto={isRegistroAbierto}

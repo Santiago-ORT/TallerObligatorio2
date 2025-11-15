@@ -1,0 +1,139 @@
+
+:root {
+  --color-primary-bg: #f8f9fa;
+  --color-secondary-bg: #d10000; 
+  --color-border: #ccc;
+  --color-text: #333;
+  --color-accent-add: #28a745; 
+  --color-accent-delete: #dc3545; 
+}
+
+.admin-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; 
+  padding: 20px; 
+  background-color: var(--color-primary-bg);
+  color: var(--color-text);
+  text-align: center;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+.admin-header {
+  border-bottom: 2px solid var(--color-border);
+  padding-bottom: 10px;
+  margin-bottom: 10px;
+  font-size: 2rem;
+}
+
+
+.admin-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+.search-input {
+  padding: 10px 15px;
+  border: 1px solid var(--color-border);
+  border-radius: 5px;
+  flex-grow: 1; 
+  max-width: 400px;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.add-button, .delete-button, .edit-action {
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.2s;
+}
+
+.add-button {
+  background-color: var(--color-accent-add);
+  color: white;
+}
+
+.delete-button {
+  background-color: var(--color-accent-delete);
+  color: white;
+}
+
+.add-button:hover { background-color: #218838; }
+.delete-button:hover { background-color: #c82333; }
+.delete-button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.table-wrapper {
+  border-radius: 0.5rem;        
+  overflow: hidden;           
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+.users-table {
+  width: 100%;
+  border-collapse: collapse;
+  border-radius: 1rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.users-table th, .users-table td {
+  padding: 12px 15px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+.users-table th {
+  background-color: var(--color-secondary-bg);
+  color: white;
+  font-weight: 600;
+}
+
+.users-table tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+.users-table tr:hover {
+  background-color: #e9ecef;
+}
+
+.selected-row {
+  background-color: #d1ecf1 !important; /* Resalta la fila seleccionada */
+}
+
+/* Estilos de las etiquetas de Rol */
+.role-tag {
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 0.85em;
+  font-weight: 500;
+}
+
+.role-tag.admin {
+  background-color: #ffc107; 
+  color: #333;
+}
+
+.role-tag.usuario {
+  background-color: #007bff; 
+  color: white;
+}
+
+
+.edit-action {
+  background: #007bff;
+  color: white;
+  padding: 6px 10px;
+}
+.edit-action:hover {
+  background: #0056b3;
+}

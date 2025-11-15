@@ -1,8 +1,15 @@
 import React, { useState } from "react";
 import "./Chart.css";
+import Swal from "sweetalert2";
+import axios from "axios";
 
-
-const Chart = ({ carrito = [], setCarrito, abierto, onCerrar }) => {
+const Chart = ({
+  carrito = [],
+  setCarrito,
+  abierto,
+  onCerrar,
+  usuarioActual,
+}) => {
   const [metodoEnvio, setMetodoEnvio] = useState("retiro");
 
   const eliminarDelCarrito = (id) => {
@@ -18,15 +25,51 @@ const Chart = ({ carrito = [], setCarrito, abierto, onCerrar }) => {
     0
   );
 
-  const finalizarCompra = () => {
-    alert(
-      `Compra finalizada. Método de entrega: ${
-        metodoEnvio === "retiro" ? "Retiro en local" : "Envío a domicilio"
-      }. Total: $${totalCarrito.toFixed(2)}`
-    );
+  const finalizarCompra = async () => {
+  if (!usuarioActual) {
+    Swal.fire({
+      icon: "warning",
+      title: "Debes iniciar sesión",
+      text: "Inicia sesión para poder realizar la compra",
+      confirmButtonText: "Aceptar",
+    });
+    return;
+  }
+
+  try {
+    // Por cada producto en el carrito, hacemos un POST individual
+    for (const item of carrito) {
+      const compra = {
+        IdProducto: item.id,
+        FechaCompra: new Date().toISOString(),
+        EstadoCompra: "Pendiente",
+        IdCliente: usuarioActual.id,
+        Envio: metodoEnvio === "retiro" ? "Retiro en local" : "Envío a domicilio",
+        Cantidad: item.cantidad,
+      };
+
+      await axios.post("http://localhost:3000/crearcompra", compra);
+    }
+
+    Swal.fire({
+      icon: "success",
+      title: "Compra finalizada",
+      text: `Total: $${totalCarrito.toFixed(2)}`,
+      confirmButtonText: "Aceptar",
+    });
+
     vaciarCarrito();
     onCerrar();
-  };
+  } catch (err) {
+    console.error("Error al crear la compra:", err);
+    Swal.fire({
+      icon: "error",
+      title: "Error",
+      text: "No se pudo registrar la compra.",
+      confirmButtonText: "Aceptar",
+    });
+  }
+};
 
   if (!abierto) return null;
 
@@ -90,15 +133,7 @@ const Chart = ({ carrito = [], setCarrito, abierto, onCerrar }) => {
                   />
                   Retiro en local
                 </label>
-                <label>
-                  <input
-                    type="radio"
-                    value="envio"
-                    checked={metodoEnvio === "envio"}
-                    onChange={(e) => setMetodoEnvio(e.target.value)}
-                  />
-                  Envío a domicilio
-                </label>
+                
               </div>
 
               <div className="acciones-carrito">

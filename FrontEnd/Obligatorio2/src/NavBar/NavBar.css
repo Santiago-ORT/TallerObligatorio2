@@ -7,7 +7,7 @@
   box-shadow: 0 4px 8px rgba(0,0,0,0.15);
   position: sticky;
   top: 0;
-  z-index: 1000;
+  z-index: 1;
   flex-wrap: wrap; 
 }
 
@@ -49,6 +49,8 @@
   flex: 1;
   display: flex;
   align-items: center;
+  position: relative;
+  width: 100%;       /* 👈 Asegura que el contenedor tiene el mismo ancho que la sugerencia */
 }
 
 .search-input {
@@ -69,6 +71,7 @@
   border: none;
   border-radius: 0 6px 6px 0;
   cursor: pointer;
+  white-space: nowrap;
 }
 
 /* ===== BOTTOM BAR ===== */
