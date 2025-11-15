@@ -2,7 +2,7 @@
 name: "Mejora de Documentación"
 about: "Reportar errores, faltas o mejoras en la documentación."
 title: "[DOC] - "
-labels: ["documentation"]
+labels: ["documentacion"]
 assignees: []
 ---
 

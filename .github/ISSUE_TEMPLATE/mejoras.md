@@ -1,8 +1,8 @@
 ---
 name: "Mejora"
 about: "Proponer mejoras."
-title: "[IMPROVEMENT] - "
-labels: ["enhancement"]
+title: "[MEJORA] - "
+labels: ["mejoras"]
 assignees: []
 ---
 
