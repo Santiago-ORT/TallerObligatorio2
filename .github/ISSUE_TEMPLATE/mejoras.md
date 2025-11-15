@@ -1,6 +1,6 @@
 ---
 name: "Mejora"
-about: "Proponer mejoras o refactorización del código."
+about: "Proponer mejoras."
 title: "[IMPROVEMENT] - "
 labels: ["enhancement"]
 assignees: []
