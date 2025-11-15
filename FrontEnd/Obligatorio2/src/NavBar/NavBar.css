@@ -43,37 +43,7 @@
   height: 60px;
 }
 
-/* Search bar */
-
-.search-container {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  position: relative;
-  width: 100%;       /* 👈 Asegura que el contenedor tiene el mismo ancho que la sugerencia */
-}
-
-.search-input {
-  width: 100%;
-  padding: 12px;
-  font-size: 16px;
-  border: 1px solid #ccc;
-  border-right: none;
-  border-radius: 6px 0 0 6px;
-  outline: none;
-}
-
-.search-button {
-  padding: 12px 20px;
-  background: #d10000;
-  color: #fff;
-  font-weight: bold;
-  border: none;
-  border-radius: 0 6px 6px 0;
-  cursor: pointer;
-  white-space: nowrap;
-}
-
+/* Search bar *
 /* ===== BOTTOM BAR ===== */
 
 .navbar-bottom {
@@ -159,19 +129,57 @@
   color: #d10000;
   transform: scale(1.2); /* se agranda */
 }
+.search-container {
+  position: relative;
+  display: flex;
+  width: 100%; /* toma todo el ancho disponible */
+  max-width: 1000px; /* opcional: limitar ancho máximo */
+  min-width: 1000px;
+  box-sizing: border-box;
+}
+
+.search-input {
+  max-width: 905px; /* opcional: limitar ancho máximo */
+  min-width: 905px;
+  padding: 12px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-right: none; /* para que se vea como un bloque unido al botón */
+  border-radius: 6px 0 0 6px;
+  outline: none;
+  box-sizing: border-box;
+}
+
+.search-button {
+  padding: 12px 20px;
+  font-size: 16px;
+  background: #d10000;
+  color: #fff;
+  font-weight: bold;
+  border: none;
+  border-radius: 0 6px 6px 0;
+  cursor: pointer;
+  flex-shrink: 0; /* que no se achique */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Sugerencias */
 .suggestions-list {
   position: absolute;
   top: 100%;
   left: 0;
-  width: calc(100% - 0px); /* mismo ancho que el input */
+  width: 100%; /* igual que el contenedor input+botón */
   background: #fff;
   border: 1px solid #ccc;
   border-top: none;
   border-radius: 0 0 6px 6px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
   z-index: 1001;
   max-height: 250px;
   overflow-y: auto;
+  box-sizing: border-box;
 }
 
 .suggestion-item {
