@@ -1,8 +1,9 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import "./NavBar.css";
 import Chart from "../Chart/Chart";
 import logo from "../Img/Logo.png";
-import { Link } from "react-router-dom";
+import Login from "../Usuarios/Login"
+import Registros from "../Usuarios/Registros"
 
 export default function Navbar({
   onCategoriaSeleccionada,
@@ -24,6 +25,8 @@ export default function Navbar({
   const [search, setSearch] = useState("");
   const [suggestions, setSuggestions] = useState([]);
   const [carritoAbierto, setCarritoAbierto] = useState(false);
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false); 
+  const [registroAbierto, setRegistrioAbierto] = useState(false);
 
   const handleSearchChange = (e) => {
     const value = e.target.value;
@@ -46,6 +49,14 @@ export default function Navbar({
     setSearch(item);
     setSuggestions([]);
     onBuscar(item);
+  };
+  
+  const handleCloseLoginModal = () => {
+    setIsLoginModalOpen(false);
+  };
+
+  const handleCloseRegistroModal = () => {
+    setRegistrioAbierto(false)
   };
 
   return (
@@ -87,7 +98,14 @@ export default function Navbar({
               <span className="cart-badge">{cantidadCarrito}</span>
             )}
           </div>
-          <Link to="/Login" className="icon user">👤</Link>
+          
+          <div 
+            className="icon user" 
+            onClick={() => setIsLoginModalOpen(true)}
+            aria-label="Iniciar Sesión"
+          >
+            👤
+          </div>
         </div>
 
         <div className="nav-links">
@@ -108,6 +126,16 @@ export default function Navbar({
         carrito={carrito}
         setCarrito={setCarrito}
       />
+
+      <Login
+        isShowing={isLoginModalOpen} 
+        hide={handleCloseLoginModal} 
+      />
+
+      <Registros
+      registroAbierto={registroAbierto}
+      registroCerrado={setRegistrioAbierto}/>
+      
     </>
   );
 }

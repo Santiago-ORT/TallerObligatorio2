@@ -1,8 +1,7 @@
 import React, { useState } from "react";
-import "./Login.css";
-import { Link } from "react-router-dom";
+import "./Login.css"; 
 
-const Login = () => {
+const Login = ({ isShowing, hide, onSwitchToRegistro }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -28,11 +27,40 @@ const Login = () => {
     if (!validate()) return;
 
     console.log("Login OK ✅", { email, password });
+    
+  };
+  
+
+  const handleRegisterClick = (e) => {
+    e.preventDefault();
+    if (onSwitchToRegistro) {
+        onSwitchToRegistro();
+    } else {
+        hide(); 
+    }
   };
 
+  if (!isShowing) {
+    return null; 
+  }
+
   return (
-    <div className="login-page">
-      <form className="login-card" onSubmit={handleSubmit} noValidate>
+    <div className="modal-overlay" onClick={hide}> 
+      <form 
+        className="login-card modal-content animado" 
+        onSubmit={handleSubmit} 
+        noValidate
+        onClick={(e) => e.stopPropagation()}
+      >
+        <button
+            type="button"
+            className="modal-close-button btn-cerrar-superior"
+            onClick={hide} 
+            aria-label="Cerrar Modal"
+        >
+            <span aria-hidden="true">&times;</span>
+        </button>
+        
         <h2 className="login-title">Iniciar sesión</h2>
 
         <label className="login-label">Email</label>
@@ -67,7 +95,6 @@ const Login = () => {
         <button type="submit" className="login-btn">
           Ingresar
         </button>
-        <Link to="/Registro" className="registro-btn">Registrarse</Link>
       </form>
     </div>
   );
