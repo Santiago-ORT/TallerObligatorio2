@@ -19,6 +19,8 @@ else
 
     # Contar líneas agregadas y removidas
     STATS=$(git diff --shortstat)
+    
+    git checkout Dev
 
     # Agregar todos los cambios
     git add .
